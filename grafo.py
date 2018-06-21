@@ -1,51 +1,42 @@
-class Ciudad:
-	def __init__(self,nombre,lat,longitud):
-		self.nombre = nombre
-		self.lat = lat
-		self.long = longitud
-	def __str__(self):
-		return "Ciudad {},Latitud {},Longitud {})".format(self.nombre,self.lat,self.long)
-"""Grafo dirigido y pesado"""
 class Grafo:
-	def __init__(self):
-		self.raiz={}#cambiale el nombre si queres
-		self.cantidad= 0 
-	def agregar_vertice(self,ciudad):
-		if ciudad in self.raiz:
-			return #Quiero preguntar , al profesor si debo levantar error
-		self.raiz[ciudad]={}
-	def agregar_arista(self,cuidad_partida,ciudad_llegada,tiempo):#consultar que debo hacer si no existe cuidad de partida o llegada
-		"""Si no existe cuidad partida o llegada lo crea"""
-		dic_ciudad=self.raiz.get(cuidad_partida,{})
-		dic_ciudad[ciudad_llegada]=tiempo
-	def pertenece_vertice(self,cuidad):
-		if cuidad in self.raiz:
+	def __init__(self,grafo_dirigido):
+		self.dic_vertice={}
+		self.dirigido=grafo_dirigido
+	def agregar_vertice(self,vertice):
+		if vertice in self.dic_vertice:
+			return False
+		self.dic_vertice[vertice]={}
+		return True
+	def agregar_arista(self,vertice_A,vertice_B,peso):
+		if vertice_A and vertice_B in self.dic_vertice:#fijater que no cause errores esta sintasis
+			dic_arista_A=self.dic_vertice[vertice_A]
+			if vertice_B in dic_arista_A:
+				return False
+			dic_arista_A[vertice_B]=peso
+			if not self.dirigido:
+				dic_arista_B=self.dic_vertice[vertice_B]
+				"""if vertice_A in dic_arista_B:#creo que esta demas 
+					return False"""
+				dic_arista_B[vertice_A]=peso
 			return True
-	def peso_arista(self,cuidad_partida,ciudad_llegada):
-
+		return False
+	def borrar_arista(self,vertice_A,vertice_B):
+		
+	def pertenece_vertice(self,vertice):
+		return vertice in self.dic_vertice
+	def peso_arista(self,vertice_A,vertice_B):
+		if vertice_A and vertice_B in self.dic_vertice:
+			dic_arista_A=self.dic_vertice[vertice_A]
+			if  vertice_B in dic_arista_A:
+				return dic_arista_A[vertice_B]
+		return False
 	def __str__(self):
 		return "{}".format(self.raiz)
+grafo1=Grafo(False)
+grafo1.agregar_vertice("A")
+grafo1.agregar_vertice("B")
+grafo1.agregar_arista("A","B",3)
 
-cuidad1 = Ciudad("Moscu",55.755833,37.617778)
-cuidad2 = Ciudad("San Petesburgo",59.950000,30.316667)
-cuidad3 = Ciudad("Kaliningrado",54.716667,20.500000)
-cuidad4 = Ciudad("Kazan",55.790833,49.114444)
-cuidad5 = Ciudad("Nizhni Novgorod",56.326944,44.0075)
 
-grafo=Grafo()
-grafo.agregar_vertice(cuidad1)
-grafo.agregar_vertice(cuidad2)
-grafo.agregar_vertice(cuidad3)
-grafo.agregar_vertice(cuidad4)
-grafo.agregar_vertice(cuidad5)
 
-grafo.agregar_arista(cuidad1,cuidad2,34)
-if grafo.pertenece_vertice(cuidad1):
-	print("SI pertenece")
-"""
-for clave1,valor1 in grafo.raiz.items():
-	print(clave1)
-	for clave2,valor2 in valor1.items():
-		print(clave2)
-		print(valor2)
-"""
+
