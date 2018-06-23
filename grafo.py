@@ -17,9 +17,13 @@ class Grafo:
 				dic_arista.pop(vertice)
 		return True
 	def adyacentes_vertice(self,vertice):
-		if vertice in self.dic_vertice:
-			return len(self.dic_vertice[vertice])
-		
+		lista=[]
+		if not  vertice in self.dic_vertice:
+			return None
+		dic_arista=self.dic_vertice[vertice]
+		for w in dic_arista.keys():
+			lista.append(w)
+		return lista
 	def agregar_arista(self,vertice_A,vertice_B,peso):
 		if not(vertice_A  in self.dic_vertice and vertice_B in self.dic_vertice):
 			return False
@@ -66,19 +70,4 @@ class Grafo:
 		return lista
 	def cantidad_vertice(self):
 		return len(self.dic_vertice)
-grafo1=Grafo(False)
-grafo1.agregar_vertice("A")
-grafo1.agregar_vertice("B")
-grafo1.agregar_vertice("C")
-grafo1.agregar_vertice("D")
-print(grafo1.obtener_todos_vertice())
-grafo1.agregar_arista("A","B",3)
-print(grafo1.borrar_arista("A","D"))
-grafo1.agregar_arista("A","C",5)
-print(grafo1.peso_arista("A","B"))
-print(grafo1.obtener_vertice_aleatorio())
-print(grafo1.cantidad_vertice())
-print(grafo1.pertenece_vertice("D"))
-print(grafo1.adyacentes_vertice("A"))
-print(grafo1.borrar_vertice("A"))
-print(grafo1.adyacentes_vertice("B"))
+
