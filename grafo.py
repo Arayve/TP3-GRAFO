@@ -8,15 +8,17 @@ class Grafo:
 			return False
 		self.dic_vertice[vertice]={}
 		return True
-	"""
 	def borrar_vertice(self,vertice):
-		if  not vertice_A in self.dic_vertice:
-			raise KeyError("Vertice no existente")
-		if self.dirigido:
-			self.dirigido.pop(vertice)
-			return
-	"""
+		if  not vertice in self.dic_vertice:
+			return False
+		self.dic_vertice.pop(vertice)
+		for dic_arista in self.dic_vertice.values():
+			if vertice in dic_arista:
+				dic_arista.pop(vertice)
+		return True
 	def adyacentes_vertice(self,vertice):
+		if vertice in self.dic_vertice:
+			return len(self.dic_vertice[vertice])
 		
 	def agregar_arista(self,vertice_A,vertice_B,peso):
 		if not(vertice_A  in self.dic_vertice and vertice_B in self.dic_vertice):
@@ -68,10 +70,15 @@ grafo1=Grafo(False)
 grafo1.agregar_vertice("A")
 grafo1.agregar_vertice("B")
 grafo1.agregar_vertice("C")
+grafo1.agregar_vertice("D")
 grafo1.agregar_arista("A","B",3)
+grafo1.agregar_arista("A","C",5)
 print(grafo1.peso_arista("A","B"))
 lista=grafo1.obtener_todos_vertice()
 print(lista)
 print(grafo1.obtener_vertice_aleatorio())
 print(grafo1.cantidad_vertice())
 print(grafo1.pertenece_vertice("D"))
+print(grafo1.adyacentes_vertice("A"))
+print(grafo1.borrar_vertice("A"))
+print(grafo1.adyacentes_vertice("B"))
