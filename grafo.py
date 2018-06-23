@@ -35,10 +35,10 @@ class Grafo:
 		return True
 	def borrar_arista(self,vertice_A,vertice_B):
 		if not (vertice_A in self.dic_vertice and vertice_B in self.dic_vertice):
-			raise KeyError("Vertice/s no existente")
+			return None
 		dic_arista_A = self.dic_vertice[vertice_A]
 		if not  vertice_B in dic_arista_A:
-			raise KeyError("No existe arista")
+			return None
 		peso = dic_arista_A.pop(vertice_B)
 		if not self.dirigido:
 			dic_arista_B=self.dic_vertice[vertice_B]
@@ -46,12 +46,12 @@ class Grafo:
 		return peso
 	def pertenece_vertice(self,vertice):
 		return vertice in self.dic_vertice
-	def peso_arista(self,vertice_A,vertice_B):#Aca preferi devolver excetp debes de bool , me parece raro "devolver booleanos o peso"
+	def peso_arista(self,vertice_A,vertice_B):
 		if not(vertice_A in self.dic_vertice and vertice_B in self.dic_vertice):
-			raise KeyError("Vertice/s no existente")
+			return None
 		dic_arista_A=self.dic_vertice[vertice_A]
 		if not  vertice_B in dic_arista_A:
-			raise KeyError("No existe arista")
+			return None
 		return dic_arista_A[vertice_B]
 	def obtener_vertice_aleatorio(self):
 		lista=[]
