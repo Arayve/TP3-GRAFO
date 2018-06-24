@@ -1,4 +1,5 @@
 from random import choice
+
 class Grafo:
 	def __init__(self,grafo_dirigido):
 		self.dic_vertice={}
@@ -9,7 +10,7 @@ class Grafo:
 		self.dic_vertice[vertice]={}
 		return True
 	def borrar_vertice(self,vertice):
-		if  not vertice in self.dic_vertice:
+		if not vertice in self.dic_vertice:
 			return False
 		self.dic_vertice.pop(vertice)
 		for dic_arista in self.dic_vertice.values():
@@ -18,14 +19,14 @@ class Grafo:
 		return True
 	def adyacentes_vertice(self,vertice):
 		lista=[]
-		if not  vertice in self.dic_vertice:
+		if not vertice in self.dic_vertice:
 			return None
 		dic_arista=self.dic_vertice[vertice]
 		for w in dic_arista.keys():
 			lista.append(w)
 		return lista
 	def agregar_arista(self,vertice_A,vertice_B,peso):
-		if not(vertice_A  in self.dic_vertice and vertice_B in self.dic_vertice):
+		if not (vertice_A in self.dic_vertice and vertice_B in self.dic_vertice):
 			return False
 		dic_arista_A=self.dic_vertice[vertice_A]
 		if vertice_B in dic_arista_A:
@@ -51,18 +52,18 @@ class Grafo:
 	def pertenece_vertice(self,vertice):
 		return vertice in self.dic_vertice
 	def peso_arista(self,vertice_A,vertice_B):
-		if not(vertice_A in self.dic_vertice and vertice_B in self.dic_vertice):
+		if not (vertice_A in self.dic_vertice and vertice_B in self.dic_vertice):
 			return None
 		dic_arista_A=self.dic_vertice[vertice_A]
 		if not  vertice_B in dic_arista_A:
 			return None
 		return dic_arista_A[vertice_B]
-	def obtener_vertice_aleatorio(self):
+	def obtener_vertice_aleatorio(self):#Devuelve error si el grafo esta vacio, no deberia volver None?
 		lista=[]
 		for vertice in self.dic_vertice.keys():
 			lista.append(vertice)#QUISE hacer un random al diccionario pero aveces daba error
 		return choice(lista)
-	def obtener_todos_vertice(self):
+	def obtener_todos_vertices(self):
 		"""Devuelve tdos los vertice en una lista"""
 		lista=[]
 		for vertice in self.dic_vertice.keys():
