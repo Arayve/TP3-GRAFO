@@ -18,7 +18,7 @@ def camino_minimo(grafo, desde, hasta):
 		return None
 	dist={}
 	padre={}
-	for v in grafo.obtener_todos_vertice():
+	for v in grafo.obtener_todos_vertices():
 		dist[v]= float('inf')
 	dist[desde]= 0
 	padre[desde]=None
@@ -39,12 +39,12 @@ def orden_topologico(grafo):
 	lista=[]
 	cola = Cola()
 	orden={}
-	for v in grafo.obtener_todos_vertice():
+	for v in grafo.obtener_todos_vertices():
 		orden[v]=0
-	for v in grafo.obtener_todos_vertice():
+	for v in grafo.obtener_todos_vertices():
 		for w in grafo.adyacentes_vertice(v):
 			orden[w]=1
-	for v in grafo.obtener_todos_vertice():
+	for v in grafo.obtener_todos_vertices():
 		if(orden[v]==0):
 			cola.encolar(v)
 	while not cola.esta_vacia():
@@ -58,8 +58,8 @@ def orden_topologico(grafo):
 				cola.encolar(w)
 	return lista
 def arbol_tendido_minimo(grafo):
-	"""Recibe un grafo no dirigido y conexo"""
-	grafo_aux=Grafo(True)
+	"""Recibe un grafo no dirigido y conexo """
+	grafo_aux=Grafo(False)
 	padre={}
 	heap=[]
 	visitados=set()
