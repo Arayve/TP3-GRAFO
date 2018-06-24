@@ -1,18 +1,22 @@
 from grafo import Grafo
 from cola import Cola
+from pila import Pila
 import heapq
 
 def reconstruir_camino(padre,hasta):
 	aux = hasta
 	camino=[]
-	camino.append(aux)
+	pila=Pila()
+	pila.apilar(aux)
 	while True:
 		tupla=padre[aux]
 		if tupla is None:
-			return camino
+			break
 		aux = tupla[1]
-		camino.append(aux)
-
+		pila.apilar(aux)
+	while not pila.esta_vacia():
+		camino.append(pila.desapilar())
+	return camino
 def camino_minimo(grafo, desde, hasta):
 	if  not grafo.pertenece_vertice(desde) and not grafo.pertenece_vertice(hasta):
 		return None
@@ -35,6 +39,7 @@ def camino_minimo(grafo, desde, hasta):
 	return reconstruir_camino(padre,hasta)
 
 def orden_topologico(grafo):
+	"""Solo funciona para grafo dirigido"""
 	visitados=set()
 	lista=[]
 	cola = Cola()
@@ -58,7 +63,7 @@ def orden_topologico(grafo):
 				cola.encolar(w)
 	return lista
 def arbol_tendido_minimo(grafo):
-	"""Recibe un grafo no dirigido y conexo """
+	"""Recibe un grafo no dirigido y conexo.Devuelve un grafo no dirigido"""
 	grafo_aux=Grafo(False)
 	padre={}
 	heap=[]
@@ -83,18 +88,21 @@ def arbol_tendido_minimo(grafo):
 			heapq.heappush(heap,(peso,w))
 	return grafo_aux
 
-grafo1=Grafo(False)
+grafo1=Grafo(True)
 grafo1.agregar_vertice("A")
 grafo1.agregar_vertice("B")
 grafo1.agregar_vertice("C")
 grafo1.agregar_vertice("D")
 grafo1.agregar_vertice("E")
+grafo1.agregar_vertice("F")
 grafo1.agregar_arista("A","B",5)
 grafo1.agregar_arista("A","D",8)
 grafo1.agregar_arista("B","C",2)
 grafo1.agregar_arista("C","E",1)
 grafo1.agregar_arista("D","E",3)
+grafo1.agregar_arista("A","F",4)
+grafo1.agregar_arista("E","F",100)
 print(camino_minimo(grafo1,"A","E"))
 print(orden_topologico(grafo1))
-grafo2=arbol_tendido_minimo(grafo1)
-print(grafo2)
+#grafo2=arbol_tendido_minimo(grafo1)
+#print(grafo2)
