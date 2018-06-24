@@ -56,19 +56,45 @@ def orden_topologico(grafo):
 			if not w in visitados:
 				orden[w]=0#creo que es inecesario
 				cola.encolar(w)
-	return lista 
+	return lista
+def arbol_tendido_minimo(grafo):
+	"""Recibe un grafo no dirigido y conexo"""
+	grafo_aux=Grafo(True)
+	padre={}
+	heap=[]
+	visitados=set()
+	v=grafo.obtener_vertice_aleatorio()
+	grafo_aux.agregar_vertice(v)
+	visitados.add(v)
+	for w in grafo.adyacentes_vertice(v):
+		padre[w]=v
+		peso=grafo.peso_arista(v,w)
+		heapq.heappush(heap,(peso,w))
+	while len(heap) != 0:
+		tupla=heapq.heappop(heap)
+		if tupla[1] in visitados:
+			continue
+		grafo_aux.agregar_vertice(tupla[1])
+		visitados.add(tupla[1])
+		grafo_aux.agregar_arista(padre[tupla[1]],tupla[1],tupla[0])
+		for w in grafo.adyacentes_vertice(tupla[1]):
+			padre[w]=tupla[1]
+			peso=grafo.peso_arista(tupla[1],w)
+			heapq.heappush(heap,(peso,w))
+	return grafo_aux
 
-grafo1=Grafo(True)
+grafo1=Grafo(False)
 grafo1.agregar_vertice("A")
 grafo1.agregar_vertice("B")
 grafo1.agregar_vertice("C")
 grafo1.agregar_vertice("D")
 grafo1.agregar_vertice("E")
-grafo1.agregar_vertice("F")
 grafo1.agregar_arista("A","B",5)
 grafo1.agregar_arista("A","D",8)
 grafo1.agregar_arista("B","C",2)
 grafo1.agregar_arista("C","E",1)
-grafo1.agregar_arista("D","E",1)
+grafo1.agregar_arista("D","E",3)
 print(camino_minimo(grafo1,"A","E"))
 print(orden_topologico(grafo1))
+grafo2=arbol_tendido_minimo(grafo1)
+print(grafo2)

@@ -70,4 +70,6 @@ class Grafo:
 		return lista
 	def cantidad_vertice(self):
 		return len(self.dic_vertice)
+	def __str__(self):
+		return "{}".format(self.dic_vertice)
 
