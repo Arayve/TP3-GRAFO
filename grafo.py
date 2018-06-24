@@ -58,7 +58,7 @@ class Grafo:
 		if not  vertice_B in dic_arista_A:
 			return None
 		return dic_arista_A[vertice_B]
-	def obtener_vertice_aleatorio(self):#Devuelve error si el grafo esta vacio, no deberia volver None?
+	def obtener_vertice_aleatorio(self):
 		lista=[]
 		for vertice in self.dic_vertice.keys():
 			lista.append(vertice)#QUISE hacer un random al diccionario pero aveces daba error

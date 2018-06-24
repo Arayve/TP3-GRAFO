@@ -87,7 +87,33 @@ def arbol_tendido_minimo(grafo):
 			peso=grafo.peso_arista(tupla[1],w)
 			heapq.heappush(heap,(peso,w))
 	return grafo_aux
+def _viajante(grafo,origen,vertice,lista,heap,cant):
+	if lista[-1] == origen:
+		if len(lista) == grafo.cantidad_vertice()+1:
+			heapq.heappush(heap,(cant,lista))
+		return
+	for w in grafo.adyacentes_vertice(vertice):
+		lista_aux=lista[:]
+		lista_aux.append(w)
+		nueva_cant=cant+grafo.peso_arista(vertice,w)
+		_viajante(grafo,origen,w,lista_aux,heap,nueva_cant)
+	return
+def viajante(grafo, origen):#fuerza bruta , grafo dirigido y pesado
+	if  not grafo.pertenece_vertice(origen):
+		return None
+	heap = []
+	for w in grafo.adyacentes_vertice(origen):
+		lista=[]
+		lista.append(origen)
+		lista.append(w)
+		cant = grafo.peso_arista(origen,w)
+		_viajante(grafo,origen,w,lista,heap,cant)
+	if heap==[]:
+		return None
+	tupla=heapq.heappop(heap)
+	return tupla[1]
 
+"""
 grafo1=Grafo(True)
 grafo1.agregar_vertice("A")
 grafo1.agregar_vertice("B")
@@ -121,3 +147,39 @@ grafo2.agregar_arista("A","F",4)
 grafo2.agregar_arista("E","F",100)
 arbol_minimo=arbol_tendido_minimo(grafo2)
 print(arbol_minimo)
+
+grafo3=Grafo(True)
+grafo3.agregar_vertice("A")
+grafo3.agregar_vertice("B")
+grafo3.agregar_vertice("C")
+grafo3.agregar_vertice("D")
+grafo3.agregar_arista("A","B",3)
+grafo3.agregar_arista("A","C",1)
+grafo3.agregar_arista("C","D",4)
+grafo3.agregar_arista("C","B",2)
+grafo3.agregar_arista("B","D",3)
+grafo3.agregar_arista("D","A",1)
+print(viajante(grafo3,"A"))
+"""
+grafo4=Grafo(True)
+grafo4.agregar_vertice("A")
+grafo4.agregar_vertice("B")
+grafo4.agregar_vertice("C")
+grafo4.agregar_vertice("D")
+grafo4.agregar_vertice("E")
+grafo4.agregar_vertice("F")
+grafo4.agregar_vertice("G")
+grafo4.agregar_vertice("H")
+grafo4.agregar_arista("A","C",1)
+grafo4.agregar_arista("A","B",2)
+grafo4.agregar_arista("B","C",2)
+grafo4.agregar_arista("B","D",2)
+grafo4.agregar_arista("D","E",2)
+grafo4.agregar_arista("E","G",3)
+grafo4.agregar_arista("E","F",2)
+grafo4.agregar_arista("C","D",1)
+grafo4.agregar_arista("D","F",1)
+grafo4.agregar_arista("F","G",1)
+grafo4.agregar_arista("G","H",1)
+grafo4.agregar_arista("H","A",2)
+print(viajante(grafo4,"A"))

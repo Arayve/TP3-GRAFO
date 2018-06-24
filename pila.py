@@ -31,3 +31,21 @@ class Pila:
             raise IndexError("La pila está vacía")
 
         return self.items.pop()
+    def cantidad_elementos(self):
+        """Devuelve la cantidad de elementos"""
+        
+        return len(self.items)
+    def ver_tope(self):
+        
+        """Devuelve el elemento que se encuentre en el tope de la pila"""
+        
+        if self.esta_vacia():
+            raise IndexError("La pila está vacía")
+        return self.items[-1]
+    def copiar_pila(self,otro):
+        """Recibe una clase pila (otro), copia todos los elementos de pila a otro"""
+        
+        otro.items=self.items[:]
+    
+    def __str__(self):
+        return "{}".format(self.items)
