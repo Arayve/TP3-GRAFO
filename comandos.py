@@ -32,12 +32,24 @@ def procesar_viaje_aproximado(grafo, origen):
 	print(lista_recorrido[-1])
 	print("Costo total: {}".format(costo))
 
-def procesar_itinerario(grafo, recomandaciones): #recomendaciones es el nombre de un archivo .csv
-
-	return None
-
+def procesar_itinerario(grafo, recomendaciones): #recomendaciones es el nombre de un archivo .csv FIJATE QUE CREO QUE GRAfO NO HACE FALTA
+	grafo_recomendaciones=Grafo(True)
+	with open(recomendaciones,"r") as archivo_csv:
+		for linea in archivo_csv:
+			lista_campos=linea.rstrip("\n").split(",")
+			for cuidad in lista_campos:
+				grafo_recomendaciones.agregar_vertice(cuidad)#no importa si hay repetido , no los vuelve a copiar
+	with open(recomendaciones,"r") as archivo_csv:
+		for linea in archivo_csv:
+			lista_campos=linea.rstrip("\n").split(",")
+			grafo_recomendaciones.agregar_arista(lista_campos[0],lista_campos[1],0)
+	lista_orden_topologico=biblioteca.orden_topologico(grafo_recomendaciones)
+	lista_aux=lista_orden_topologico[:-1]
+	if len(lista_orden_topologico)>1:
+		for vertice in lista_aux:
+			print(vertice, end = " -> ")
+	print(lista_orden_topologico[-1])
 def procesar_reducir_caminos(grafo, destino): #destino es el nombre de un archivo .csv
-
 	return None
 
 def comparar_comando(grafo, linea_comando):
