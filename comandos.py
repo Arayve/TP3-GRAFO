@@ -1,8 +1,8 @@
 from grafo import Grafo
 import sys
 import csv
-ENCABEZADO_CUIDADES="11"
-ENCABEZADO_RUTA="55"
+CUIDAD="11"
+RUTA="55"
 
 def procesar_ir(grafo, desde, hasta):
 
@@ -74,21 +74,22 @@ def cargar_set_datos(nombre_archivo_ciudades):
 	"""El archivo debe contener sus encabezados correspondiente"""
 	grafo = Grafo(False)
 	coordenadas = {}
-	with open(nombre_archivo_ciudades, "r") as archivo:
-		archivo_cuidades_csv = csv.reader(archivo)
-		for nombre_cuidad, lat, log in archivo_cuidades_csv:
-			if nombre_cuidad = ENCABEZADO_CUIDADES:
+	estoy_en = ""
+	with open(nombre_archivo_ciudades, "r") as archivo_csv:
+		for linea in archivo_csv:
+			lista_campos=linea.rstrip("\n").split(",")
+			if lista_campos[0] == CUIDAD:
+				estoy_en = CUIDAD
 				continue
-				centinela = ESTOY_EN_CUIDADES
-			if nombre_cuidad = ENCABEZADO_RUTA:
-				break
-			grafo.agregar_vertice(nombre_cuidad)
-			coordenadas[nombre_cuidad]=(lat,log)
-		for cuidad_partida , cuidad_llegada , costo in archivo_cuidades_csv:
-			grafo.agregar_arista(cuidad_partida,cuidad_llegada,costo)
-	return grafo , coordenadas
-
-
+			if lista_campos[0] == RUTA:
+				estoy_en = RUTA
+				continue
+			if estoy_en == CUIDAD and len(lista_campos) == 3:
+				grafo.agregar_vertice(lista_campos[0])
+				coordenadas[lista_campos[0]]=(lista_campos[1],lista_campos[2])
+			if estoy_en == RUTA and len(lista_campos) == 3:
+				grafo.agregar_arista(lista_campos[0],lista_campos[1],lista_campos[2])
+	return grafo ,coordenadas
 """
 	archivo_ciudades = open(nombre_archivo_ciudades, "r")
 
@@ -115,7 +116,7 @@ def main():
 		print("Cantidad de parametros invalida")
 		return False
 
-	grafo, coordenadas = cargar_set_datos(sys.argv[1])
+	grafo , coordenadas = cargar_set_datos(sys.argv[1])
 
 	while True:
 		linea_actual = input()
