@@ -64,6 +64,7 @@ def arbol_tendido_minimo(grafo):
 	padre={}
 	heap=[]
 	visitados=set()
+	peso_total=0
 	v=grafo.obtener_vertice_aleatorio()
 	grafo_aux.agregar_vertice(v)
 	visitados.add(v)
@@ -75,6 +76,7 @@ def arbol_tendido_minimo(grafo):
 		tupla=heapq.heappop(heap)
 		if tupla[1] in visitados:
 			continue
+		peso_total+=tupla[0]
 		grafo_aux.agregar_vertice(tupla[1])
 		visitados.add(tupla[1])
 		grafo_aux.agregar_arista(padre[tupla[1]],tupla[1],tupla[0])
@@ -82,7 +84,7 @@ def arbol_tendido_minimo(grafo):
 			padre[w]=tupla[1]
 			peso=grafo.peso_arista(tupla[1],w)
 			heapq.heappush(heap,(peso,w))
-	return grafo_aux
+	return grafo_aux , peso_total
 
 
 def _viajante(grafo,origen,vertice,lista,heap,cant,visitados):
@@ -154,6 +156,23 @@ def viajante_aproximado(grafo,origen):
 	lista.append(origen)
 	lista.append(tupla[1])
 	return _viajante_aproximado(grafo,origen,tupla[1],lista,visitados,peso)
+def recorrer_grafo(grafo):#no se como llarmar a esta funcion
+	""""""
+	print(grafo)
+	lista=[]
+	visitados=set()
+	lista_vertices=grafo.obtener_todos_vertices()
+	for v in lista_vertices:
+		for w in grafo.adyacentes_vertice(v):
+			if (v,w) in visitados or (w,v) in visitados:
+				continue
+			lista.append([v,w])
+			visitados.add((v,w))#creo que este esta demas
+			visitados.add((w,v))
+	return lista
+
+
+
 """
 grafo1=Grafo(True)
 grafo1.agregar_vertice("A")

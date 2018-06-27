@@ -50,8 +50,12 @@ def procesar_itinerario(grafo, recomendaciones): #recomendaciones es el nombre d
 			print(vertice, end = " -> ")
 	print(lista_orden_topologico[-1])
 def procesar_reducir_caminos(grafo, destino): #destino es el nombre de un archivo .csv
-	return None
-
+	grafo_tendido,costo=biblioteca.arbol_tendido_minimo(grafo)
+	lista_recorrido=biblioteca.recorrer_grafo(grafo_tendido)
+	with open(destino,"w") as archivo:
+		archivo_csv=csv.writer(archivo)
+		archivo_csv.writerows(lista_recorrido)
+	print("Peso total: {}".format(costo))
 def comparar_comando(grafo, linea_comando):
 
 	largo = len(linea_comando)
