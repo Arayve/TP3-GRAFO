@@ -112,7 +112,7 @@ def viajante(grafo, origen):#fuerza bruta , grafo dirigido y pesado
 		visitados.add(w)
 		cant = grafo.peso_arista(origen,w)
 		_viajante(grafo,origen,w,lista,heap,cant,visitados)
-	if heap==[]:# esto pasaria si no fuera un grafo completo, lo escribo asi no rompe el programa si no ponen un grafo completo
+	if heap==[]:# esto pasaria si no fuera un grafo completo,lo escribo asi no rompe el programa si no ponen un grafo completo
 		return None
 	tupla=heapq.heappop(heap)
 	return tupla[1]
@@ -129,7 +129,7 @@ def _viajante_aproximado(grafo,origen,vertice,lista,visitados):
 	heap=[]
 	_agregar_adyacentes_heap(grafo,heap,vertice)
 	while True:
-		if tupla == []:#pasaria si no fuera un grafo completo
+		if heap == []:#pasaria si no fuera un grafo completo
 			return None
 		tupla=heapq.heappop(heap)
 		if not tupla[1] in visitados:
@@ -150,7 +150,7 @@ def viajante_aproximado(grafo,origen):
 	lista.append(origen)
 	lista.append(tupla[1])
 	return _viajante_aproximado(grafo,origen,tupla[1],lista,visitados)
-
+"""
 grafo1=Grafo(True)
 grafo1.agregar_vertice("A")
 grafo1.agregar_vertice("B")
@@ -198,40 +198,24 @@ grafo3.agregar_arista("B","D",2)
 grafo3.agregar_arista("B","C",2)
 print(viajante(grafo3,"A"))
 print(viajante_aproximado(grafo3,"A"))
-"""
-grafo4=Grafo(True)
+
+grafo4=Grafo(False)
 grafo4.agregar_vertice("A")
 grafo4.agregar_vertice("B")
 grafo4.agregar_vertice("C")
 grafo4.agregar_vertice("D")
 grafo4.agregar_vertice("E")
-grafo4.agregar_vertice("F")
-grafo4.agregar_vertice("G")
-grafo4.agregar_vertice("H")
-grafo4.agregar_arista("A","C",1)
-grafo4.agregar_arista("A","B",2)
-grafo4.agregar_arista("B","C",2)
-grafo4.agregar_arista("B","D",2)
-grafo4.agregar_arista("D","E",2)
-grafo4.agregar_arista("E","G",3)
-grafo4.agregar_arista("E","F",2)
-grafo4.agregar_arista("C","D",1)
-grafo4.agregar_arista("D","F",1)
-grafo4.agregar_arista("F","G",1)
-grafo4.agregar_arista("G","H",1)
-grafo4.agregar_arista("H","A",2)
+grafo4.agregar_arista("A","B",1)
+grafo4.agregar_arista("A","C",2)
+grafo4.agregar_arista("A","D",3)
+grafo4.agregar_arista("A","E",2)
+grafo4.agregar_arista("B","C",5)
+grafo4.agregar_arista("B","D",6)
+grafo4.agregar_arista("B","E",2)
+grafo4.agregar_arista("C","D",7)
+grafo4.agregar_arista("C","E",2)
+grafo4.agregar_arista("D","E",9)
+
 print(viajante(grafo4,"A"))
-
-"""
-"""
-grafo5=Grafo(True)
-grafo5.agregar_vertice("A")
-grafo5.agregar_vertice("B")
-grafo5.agregar_vertice("C")
-grafo5.agregar_vertice("D")
-
-grafo5.agregar_arista("A","B",1)
-grafo5.agregar_arista("A","C",2)
-grafo5.agregar_arista("A","D",1)
-grafo5.agregar_arista("B","A",1)
+print(viajante_aproximado(grafo4,"A"))
 """

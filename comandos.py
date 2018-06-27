@@ -1,5 +1,8 @@
 from grafo import Grafo
 import sys
+import csv
+ENCABEZADO_CUIDADES="11"
+ENCABEZADO_RUTA="55"
 
 def procesar_ir(grafo, desde, hasta):
 
@@ -68,10 +71,25 @@ def comparar_comando(grafo, linea_comando):
 	return False
 
 def cargar_set_datos(nombre_archivo_ciudades):
-
+	"""El archivo debe contener sus encabezados correspondiente"""
 	grafo = Grafo(False)
 	coordenadas = {}
+	with open(nombre_archivo_ciudades, "r") as archivo:
+		archivo_cuidades_csv = csv.reader(archivo)
+		for nombre_cuidad, lat, log in archivo_cuidades_csv:
+			if nombre_cuidad = ENCABEZADO_CUIDADES:
+				continue
+				centinela = ESTOY_EN_CUIDADES
+			if nombre_cuidad = ENCABEZADO_RUTA:
+				break
+			grafo.agregar_vertice(nombre_cuidad)
+			coordenadas[nombre_cuidad]=(lat,log)
+		for cuidad_partida , cuidad_llegada , costo in archivo_cuidades_csv:
+			grafo.agregar_arista(cuidad_partida,cuidad_llegada,costo)
+	return grafo , coordenadas
 
+
+"""
 	archivo_ciudades = open(nombre_archivo_ciudades, "r")
 
 	linea_actual = archivo_ciudades.read() #El archivo sedes.csv tiene un "11" al principio y un "55" en el medio
@@ -90,7 +108,7 @@ def cargar_set_datos(nombre_archivo_ciudades):
 	archivo_ciudades.close()
 
 	return grafo, coordenadas
-
+"""
 def main():
 
 	if len(sys.argv) != 3:
