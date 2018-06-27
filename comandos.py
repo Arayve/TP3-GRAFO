@@ -129,7 +129,6 @@ def main():
 		return False
 
 	grafo , coordenadas = cargar_set_datos(sys.argv[1])
-
 	while True:
 		linea_actual = input()
 		if linea_actual == "":

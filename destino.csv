@@ -1,5 +1,6 @@
-Kazan,Nizhni Novgorod
-Nizhni Novgorod,Volgogrado
+Ekaterinburgo,Nizhni Novgorod
+Nizhni Novgorod,Kazan
+Kazan,Volgogrado
 Volgogrado,Rostov del Don
 Rostov del Don,Moscu
 Moscu,Samara
@@ -7,4 +8,3 @@ Samara,Kaliningrado
 Kaliningrado,Sochi
 Sochi,San Petesburgo
 San Petesburgo,Saransk
-Saransk,Ekaterinburgo

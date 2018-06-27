@@ -158,7 +158,6 @@ def viajante_aproximado(grafo,origen):
 	return _viajante_aproximado(grafo,origen,tupla[1],lista,visitados,peso)
 def recorrer_grafo(grafo):#no se como llarmar a esta funcion
 	""""""
-	print(grafo)
 	lista=[]
 	visitados=set()
 	lista_vertices=grafo.obtener_todos_vertices()
