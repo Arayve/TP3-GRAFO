@@ -61,7 +61,6 @@ def orden_topologico(grafo):
 def arbol_tendido_minimo(grafo):
 	"""Recibe un grafo no dirigido y conexo.Devuelve un grafo no dirigido"""
 	grafo_aux=Grafo(False)
-	padre={}
 	heap=[]
 	visitados=set()
 	peso_total=0
@@ -69,9 +68,8 @@ def arbol_tendido_minimo(grafo):
 	grafo_aux.agregar_vertice(v)
 	visitados.add(v)
 	for w in grafo.adyacentes_vertice(v):
-		padre[w]=v
 		peso=grafo.peso_arista(v,w)
-		heapq.heappush(heap,(peso,w))
+		heapq.heappush(heap,(peso,w,v))
 	while len(heap) != 0:
 		tupla=heapq.heappop(heap)
 		if tupla[1] in visitados:
@@ -79,11 +77,10 @@ def arbol_tendido_minimo(grafo):
 		peso_total+=tupla[0]
 		grafo_aux.agregar_vertice(tupla[1])
 		visitados.add(tupla[1])
-		grafo_aux.agregar_arista(padre[tupla[1]],tupla[1],tupla[0])
+		grafo_aux.agregar_arista(tupla[2],tupla[1],tupla[0])
 		for w in grafo.adyacentes_vertice(tupla[1]):
-			padre[w]=tupla[1]
 			peso=grafo.peso_arista(tupla[1],w)
-			heapq.heappush(heap,(peso,w))
+			heapq.heappush(heap,(peso,w,tupla[1]))
 	return grafo_aux , peso_total
 
 

@@ -1,10 +1,10 @@
-Ekaterinburgo,Nizhni Novgorod
-Nizhni Novgorod,Kazan
-Kazan,Volgogrado
-Volgogrado,Rostov del Don
-Rostov del Don,Moscu
+Saransk,San Petesburgo
+San Petesburgo,Kaliningrado
+Kaliningrado,Moscu
 Moscu,Samara
-Samara,Kaliningrado
-Kaliningrado,Sochi
-Sochi,San Petesburgo
-San Petesburgo,Saransk
+Moscu,Rostov del Don
+Rostov del Don,Nizhni Novgorod
+Nizhni Novgorod,Kazan
+Nizhni Novgorod,Ekaterinburgo
+Kazan,Volgogrado
+Volgogrado,Sochi
