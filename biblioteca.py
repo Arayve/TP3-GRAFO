@@ -15,7 +15,7 @@ def reconstruir_camino(padre,hasta):
 	return lista[::-1]#invierto la lista
 def camino_minimo(grafo, desde, hasta):
 	if  not grafo.pertenece_vertice(desde) and not grafo.pertenece_vertice(hasta):
-		return None
+		return None,None
 	dist={}
 	padre={}
 	for v in grafo.obtener_todos_vertices():
@@ -32,7 +32,7 @@ def camino_minimo(grafo, desde, hasta):
 				dist[w]=dist[v[1]]+grafo.peso_arista(v[1],w)
 				heapq.heappush(heap,(dist[w],w))
 
-	return reconstruir_camino(padre,hasta)
+	return reconstruir_camino(padre,hasta),dist[hasta]
 
 def orden_topologico(grafo):
 	"""Solo funciona para grafo dirigido"""
@@ -84,14 +84,15 @@ def arbol_tendido_minimo(grafo):
 			heapq.heappush(heap,(peso,w))
 	return grafo_aux
 
+
 def _viajante(grafo,origen,vertice,lista,heap,cant,visitados):
 	if vertice == origen:
 		if len(lista) == grafo.cantidad_vertice()+1:
 			heapq.heappush(heap,(cant,lista))
-		return
+		return None,None
 	for w in grafo.adyacentes_vertice(vertice):
 		if w in visitados:
-			break
+			continue
 		lista_aux=lista[:]
 		lista_aux.append(w)
 		visitados_aux=set()
@@ -102,7 +103,7 @@ def _viajante(grafo,origen,vertice,lista,heap,cant,visitados):
 
 def viajante(grafo, origen):#fuerza bruta , grafo dirigido y pesado
 	if  not grafo.pertenece_vertice(origen):
-		return None
+		return None,None
 	heap = []
 	for w in grafo.adyacentes_vertice(origen):
 		lista=[]
@@ -113,43 +114,46 @@ def viajante(grafo, origen):#fuerza bruta , grafo dirigido y pesado
 		cant = grafo.peso_arista(origen,w)
 		_viajante(grafo,origen,w,lista,heap,cant,visitados)
 	if heap==[]:# esto pasaria si no fuera un grafo completo,lo escribo asi no rompe el programa si no ponen un grafo completo
-		return None
+		return None,None
 	tupla=heapq.heappop(heap)
-	return tupla[1]
+	return tupla[1],tupla[0]
 
 def _agregar_adyacentes_heap(grafo,heap,vertice):
 	for w in grafo.adyacentes_vertice(vertice):
 		cant = grafo.peso_arista(vertice,w)
 		heapq.heappush(heap,(cant,w))
 
-def _viajante_aproximado(grafo,origen,vertice,lista,visitados):
+def _viajante_aproximado(grafo,origen,vertice,lista,visitados,peso):
 	if len(lista) == grafo.cantidad_vertice():
+			peso+=grafo.peso_arista(lista[-1],origen)
 			lista.append(origen)
-			return lista
+			return lista,peso
 	heap=[]
 	_agregar_adyacentes_heap(grafo,heap,vertice)
 	while True:
 		if heap == []:#pasaria si no fuera un grafo completo
-			return None
+			return None,None
 		tupla=heapq.heappop(heap)
 		if not tupla[1] in visitados:
 			visitados.add(tupla[1])
 			lista.append(tupla[1])
-			return _viajante_aproximado(grafo,origen,tupla[1],lista,visitados)
+			peso+=tupla[0]
+			return _viajante_aproximado(grafo,origen,tupla[1],lista,visitados,peso)
 
 def viajante_aproximado(grafo,origen):
 	if  not grafo.pertenece_vertice(origen):
-		return None
+		return None,None
 	heap=[]
 	lista=[]
 	visitados=set()
 	_agregar_adyacentes_heap(grafo,heap,origen)
 	tupla=heapq.heappop(heap)
+	peso=tupla[0]
 	visitados.add(origen)
 	visitados.add(tupla[1])
 	lista.append(origen)
 	lista.append(tupla[1])
-	return _viajante_aproximado(grafo,origen,tupla[1],lista,visitados)
+	return _viajante_aproximado(grafo,origen,tupla[1],lista,visitados,peso)
 """
 grafo1=Grafo(True)
 grafo1.agregar_vertice("A")

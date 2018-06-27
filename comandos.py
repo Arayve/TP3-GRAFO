@@ -1,4 +1,5 @@
 from grafo import Grafo
+import biblioteca
 import sys
 import csv
 CUIDAD="11"
@@ -6,36 +7,30 @@ RUTA="55"
 
 def procesar_ir(grafo, desde, hasta):
 
-	return None
-
-#	lista_camino = camino_minimo(grafo, desde, hasta)
-
-#	for vertice in lista_camino:
-#		print(str(vertice), end = " -> ")
-
-	#FALTA EL COSTO TOTAL
-
+	lista_camino,costo= biblioteca.camino_minimo(grafo, desde, hasta)
+	lista_aux=lista_camino[:-1]
+	if len(lista_camino)>1:
+		for vertice in lista_aux:
+			print(vertice, end = " -> ")
+	print(lista_camino[-1])
+	print("Costo total: {}".format(costo)) 
 def procesar_viaje_optimo(grafo, origen):
-
-	return None
-
-#	lista_recorrido = viajante(grafo, origen)
-
-#	for vertice in lista_recorrido:
-#		print(str(vertice), end = " -> ")
-
-	#FALTA EL COSTO TOTAL
+	lista_recorrido,costo= biblioteca.viajante(grafo, origen)
+	lista_aux=lista_recorrido[:-1]
+	if len(lista_recorrido)>1:
+		for vertice in lista_aux:
+			print(vertice, end = " -> ")
+	print(lista_recorrido[-1])
+	print("Costo total: {}".format(costo))
 
 def procesar_viaje_aproximado(grafo, origen):
-
-	return None
-
-#	lista_recorrido = viajante_aproximado(grafo, origen)
-
-#	for vertice in lista_recorrido:
-#		print(str(vertice), end = " -> ")
-
-	#FALTA EL COSTO TOTAL
+	lista_recorrido,costo = biblioteca.viajante_aproximado(grafo, origen)
+	lista_aux=lista_recorrido[:-1]
+	if len(lista_recorrido)>1:
+		for vertice in lista_aux:
+			print(vertice, end = " -> ")
+	print(lista_recorrido[-1])
+	print("Costo total: {}".format(costo))
 
 def procesar_itinerario(grafo, recomandaciones): #recomendaciones es el nombre de un archivo .csv
 
@@ -88,8 +83,9 @@ def cargar_set_datos(nombre_archivo_ciudades):
 				grafo.agregar_vertice(lista_campos[0])
 				coordenadas[lista_campos[0]]=(lista_campos[1],lista_campos[2])
 			if estoy_en == RUTA and len(lista_campos) == 3:
-				grafo.agregar_arista(lista_campos[0],lista_campos[1],lista_campos[2])
-	return grafo ,coordenadas
+				costo=int(lista_campos[2])
+				grafo.agregar_arista(lista_campos[0],lista_campos[1],costo)
+	return grafo,coordenadas
 """
 	archivo_ciudades = open(nombre_archivo_ciudades, "r")
 
@@ -124,7 +120,7 @@ def main():
 			return False
 
 		linea_comando = linea_actual.split(" ")
-		if not comparar_comando(grafo, linea_comando, sys.argv[2]):
+		if not comparar_comando(grafo, linea_comando):
 			print("Parametro incorrecto")
 			return False
 
