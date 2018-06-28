@@ -39,6 +39,7 @@ def escrbir_kml(kml,desde,hasta,coordenadas,nombre_funcion,lista_camino):
 		escribir_final(archivo)
 
 def procesar_ir(grafo, desde, hasta,coordenadas,kml):
+	desde=desde[:-1]#elimino la coma 
 	lista_camino,costo= biblioteca.camino_minimo(grafo, desde, hasta)
 	lista_aux=lista_camino[:-1]
 	if len(lista_camino)>1:
@@ -100,10 +101,10 @@ def comparar_comando(grafo, linea_comando,kml,coordenadas):
 			procesar_ir(grafo, linea_comando[1], linea_comando[2],coordenadas,kml)
 			return True
 		if linea_comando[0] == "viaje":
-			if linea_comando[1] == "optimo":
+			if linea_comando[1] == "optimo,":
 				procesar_viaje_optimo(grafo, linea_comando[2],coordenadas,kml)
 				return True
-			if linea_comando[1] == "aproximado":
+			if linea_comando[1] == "aproximado,":
 				procesar_viaje_aproximado(grafo, linea_comando[2],coordenadas,kml)
 				return True
 	if largo == 2:
