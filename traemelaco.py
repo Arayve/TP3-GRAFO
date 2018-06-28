@@ -167,7 +167,7 @@ def main():
 	grafo , coordenadas = cargar_set_datos(sys.argv[1])
 	
 	for linea_actual in sys.stdin:
-		linea_comando = linea_actual.split(" ")
+		linea_comando = linea_actual.rstrip("\n").split(" ")
 		if not comparar_comando(grafo, linea_comando, sys.argv[2],coordenadas):
 			print("Parametro incorrecto")
 			return False

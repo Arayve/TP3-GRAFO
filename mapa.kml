@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 kml xmlns="http://earth.google.com/kml/2.1">
 	<Document>
-		<name>ir Moscu, Samara</name>
+		<name>ir Moscu, Saransk</name>
 		<Placemark>
 			<name>Moscu</name>
 			<Point>
@@ -15,8 +15,19 @@ kml xmlns="http://earth.google.com/kml/2.1">
 			</Point>
 		</Placemark>
 		<Placemark>
+			<name>Saransk</name>
+			<Point>
+				<coordinates>54.183333, 45.183333</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
 			<LineString>
 				<coordinates>55.755833, 37.617778 53.183333, 50.116667</coordinates>
+			<LineString>
+		</Placemark>
+		<Placemark>
+			<LineString>
+				<coordinates>53.183333, 50.116667 54.183333, 45.183333</coordinates>
 			<LineString>
 		</Placemark>
 	<Document>
