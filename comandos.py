@@ -26,16 +26,9 @@ def escribir_artista(archivo,lat1,log1,lat2,log2):
 def escribir_final(archivo):
 	archivo.write('\t<Document>\n')
 	archivo.write('</kml>')
-def procesar_ir(grafo, desde, hasta,coordenadas,kml):
-	lista_camino,costo= biblioteca.camino_minimo(grafo, desde, hasta)
-	lista_aux=lista_camino[:-1]
-	if len(lista_camino)>1:
-		for vertice in lista_aux:
-			print(vertice, end = " -> ")
-	print(lista_camino[-1])
-	print("Costo total: {}".format(costo))
+def escrbir_kml(kml,desde,hasta,coordenadas,nombre_funcion,lista_camino):
 	with open(kml,"w") as archivo:
-		escribir_encabezado("ir",desde,hasta,archivo)
+		escribir_encabezado(nombre_funcion,desde,hasta,archivo)
 		for vertice in lista_camino:
 			tupla_coorde=coordenadas[vertice]
 			escribir_vertice_kml(vertice,tupla_coorde[0],tupla_coorde[1],archivo)
@@ -44,7 +37,17 @@ def procesar_ir(grafo, desde, hasta,coordenadas,kml):
 			tupla_coorde2=coordenadas[lista_camino[i+1]]
 			escribir_artista(archivo,tupla_coorde1[0],tupla_coorde1[1],tupla_coorde2[0],tupla_coorde2[1])
 		escribir_final(archivo)
-def procesar_viaje_optimo(grafo, origen,kml):
+
+def procesar_ir(grafo, desde, hasta,coordenadas,kml):
+	lista_camino,costo= biblioteca.camino_minimo(grafo, desde, hasta)
+	lista_aux=lista_camino[:-1]
+	if len(lista_camino)>1:
+		for vertice in lista_aux:
+			print(vertice, end = " -> ")
+	print(lista_camino[-1])
+	print("Costo total: {}".format(costo))
+	escrbir_kml(kml,desde,hasta,coordenadas,"ir",lista_camino)
+def procesar_viaje_optimo(grafo,origen,coordenadas,kml):
 	lista_recorrido,costo= biblioteca.viajante(grafo, origen)
 	lista_aux=lista_recorrido[:-1]
 	if len(lista_recorrido)>1:
@@ -52,8 +55,8 @@ def procesar_viaje_optimo(grafo, origen,kml):
 			print(vertice, end = " -> ")
 	print(lista_recorrido[-1])
 	print("Costo total: {}".format(costo))
-
-def procesar_viaje_aproximado(grafo, origen, kml):
+	escrbir_kml(kml,origen,"",coordenadas,"viaje optimo",lista_recorrido)
+def procesar_viaje_aproximado(grafo, origen,coordenadas,kml):
 	lista_recorrido,costo = biblioteca.viajante_aproximado(grafo, origen)
 	lista_aux=lista_recorrido[:-1]
 	if len(lista_recorrido)>1:
@@ -61,8 +64,9 @@ def procesar_viaje_aproximado(grafo, origen, kml):
 			print(vertice, end = " -> ")
 	print(lista_recorrido[-1])
 	print("Costo total: {}".format(costo))
+	escrbir_kml(kml,origen,"",coordenadas,"viaje aproximado",lista_recorrido)
 
-def procesar_itinerario(grafo, recomendaciones,kml): #recomendaciones es el nombre de un archivo .csv FIJATE QUE CREO QUE GRAfO NO HACE FALTA
+def procesar_itinerario(grafo, recomendaciones,coordenadas,kml): #recomendaciones es el nombre de un archivo .csv FIJATE QUE CREO QUE GRAfO NO HACE FALTA
 	grafo_recomendaciones=Grafo(True)
 	with open(recomendaciones,"r") as archivo_csv:
 		for linea in archivo_csv:
@@ -79,6 +83,7 @@ def procesar_itinerario(grafo, recomendaciones,kml): #recomendaciones es el nomb
 		for vertice in lista_aux:
 			print(vertice, end = " -> ")
 	print(lista_orden_topologico[-1])
+	escrbir_kml(kml,"recomendaciones.csv","",coordenadas,"itinerario",lista_orden_topologico)
 def procesar_reducir_caminos(grafo, destino): #destino es el nombre de un archivo .csv
 	grafo_tendido,costo=biblioteca.arbol_tendido_minimo(grafo)
 	lista_recorrido=biblioteca.recorrer_grafo(grafo_tendido)
@@ -96,14 +101,14 @@ def comparar_comando(grafo, linea_comando,kml,coordenadas):
 			return True
 		if linea_comando[0] == "viaje":
 			if linea_comando[1] == "optimo":
-				procesar_viaje_optimo(grafo, linea_comando[2],kml)
+				procesar_viaje_optimo(grafo, linea_comando[2],coordenadas,kml)
 				return True
 			if linea_comando[1] == "aproximado":
-				procesar_viaje_aproximado(grafo, linea_comando[2],kml)
+				procesar_viaje_aproximado(grafo, linea_comando[2],coordenadas,kml)
 				return True
 	if largo == 2:
 		if linea_comando[0] == "itinerario":
-			procesar_itinerario(grafo, linea_comando[1],kml)
+			procesar_itinerario(grafo, linea_comando[1],coordenadas,kml)
 			return True
 		if linea_comando[0] == "reducir_caminos":
 			procesar_reducir_caminos(grafo, linea_comando[1])
