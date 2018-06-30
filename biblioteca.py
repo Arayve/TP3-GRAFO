@@ -92,6 +92,9 @@ def _viajante(grafo,origen,vertice,lista,heap,cant,visitados):
 	for w in grafo.adyacentes_vertice(vertice):
 		if w in visitados:
 			continue
+		nueva_cant=cant+grafo.peso_arista(vertice,w)	
+		if heap and nueva_cant>heap[0][0]:
+			continue
 		lista_aux=lista[:]
 		lista_aux.append(w)
 		visitados_aux=set()

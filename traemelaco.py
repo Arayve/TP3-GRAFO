@@ -160,15 +160,16 @@ def cargar_set_datos(nombre_archivo_ciudades):
 """
 
 def caso_especial(linea_comando):
-	if linea_comando[1] == "san":
+	if linea_comando[1] == "San":
 		lista_aux = [linea_comando[1], linea_comando[2]]
 		linea_comando[1] = ' '.join(lista_aux)
 		linea_comando[2] = linea_comando[3]
 		linea_comando.pop() #borrar el ultimo elemento
-	elif linea_comando[2] == "san":
+	elif linea_comando[2] == "San":
 		lista_aux = [linea_comando[2], linea_comando[3]]
 		linea_comando[2] = ' '.join(lista_aux)
 		linea_comando.pop() #borrar el ultimo elemento
+	return linea_comando
 
 def main():
 
@@ -181,7 +182,7 @@ def main():
 	for linea_actual in sys.stdin:
 		linea_comando = linea_actual.rstrip("\n").split(" ")
 		if len(linea_comando) == 4:
-			caso_especial(linea_comando)
+			linea_comando=caso_especial(linea_comando)
 		if not comparar_comando(grafo, linea_comando, sys.argv[2],coordenadas):
 			print("Parametro incorrecto")
 			return False
