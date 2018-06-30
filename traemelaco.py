@@ -39,7 +39,6 @@ def escrbir_kml(kml,desde,hasta,coordenadas,nombre_funcion,lista_camino):
 		escribir_final(archivo)
 
 def procesar_ir(grafo, desde, hasta,coordenadas,kml):
-	desde=desde[:-1]#elimino la coma 
 	lista_camino,costo= biblioteca.camino_minimo(grafo, desde, hasta)
 	lista_aux=lista_camino[:-1]
 	if len(lista_camino)>1:
@@ -140,33 +139,19 @@ def cargar_set_datos(nombre_archivo_ciudades):
 				costo=int(lista_campos[2])
 				grafo.agregar_arista(lista_campos[0],lista_campos[1],costo)
 	return grafo,coordenadas
-def caso_especial(linea_comando):
-	if linea_comando[1] == "San" or linea_comando[1] == "Nizhni":
-		lista_aux = [linea_comando[1], linea_comando[2]]
-		linea_comando[1] = ' '.join(lista_aux)
-		linea_comando[2] = linea_comando[3]
-		linea_comando.pop() #borrar el ultimo elemento
-	elif linea_comando[2] == "San" or linea_comando[2] == "Nizhni":
-		lista_aux = [linea_comando[2], linea_comando[3]]
-		linea_comando[2] = ' '.join(lista_aux)
-		linea_comando.pop() #borrar el ultimo elemento
-	
-	return linea_comando
-
 def separar_comando(linea_actual):
 	
 	if linea_actual[:2] == "ir":
-		linea_actual[3] == ","
+		linea_actual=linea_actual[:2]+","+linea_actual[3:]
 		linea_comando = linea_actual.rstrip("\n").split(",")
-		del linea_comando[2][0] #BORRAR PRIMER ESPACIO DE LA SEGUNDA CIUDAD
+		linea_comando[2]=linea_comando[2][1:]
 		return linea_comando
 	if linea_actual[:5] == "viaje":
-		linea_comando = linea_actual.rstrip("\n")split(",")
-		del linea_comando[1][0] #BORRAR PRIMER ESPACIO DE LA CIUDAD
+		linea_comando = linea_actual.rstrip("\n").split(",")
+		linea_comando[1]=linea_comando[1][1:]
 		return linea_comando
 	
 	linea_comando = linea_actual.rstrip("\n").split(" ")
-	
 	return linea_comando
 
 def main():
@@ -178,11 +163,7 @@ def main():
 	grafo, coordenadas = cargar_set_datos(sys.argv[1])
 	
 	for linea_actual in sys.stdin:
-		linea_comando = linea_actual.rstrip("\n").split(" ")
-		if len(linea_comando) >= 4:
-			linea_comando=caso_especial(linea_comando)
-		#IDEA APARTE
-		#linea_comando = separar_comando(linea_actual)
+		linea_comando = separar_comando(linea_actual)
 		if not comparar_comando(grafo, linea_comando, sys.argv[2],coordenadas):
 			print("Parametro incorrecto")
 			return False

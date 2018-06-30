@@ -1,3 +1,6 @@
 ir Ekaterinburgo, Moscu
+ir Ekaterinburgo, Rostov del Don
+ir San Petesburgo, Rostov del Don
 viaje optimo, Sochi
+viaje aproximado, Sochi
 viaje optimo, San Petesburgo

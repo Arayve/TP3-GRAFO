@@ -31,8 +31,6 @@ def camino_minimo(grafo, desde, hasta):
 				padre[w]=v
 				dist[w]=dist[v[1]]+grafo.peso_arista(v[1],w)
 				heapq.heappush(heap,(dist[w],w))
-	print(padre)
-
 	return reconstruir_camino(padre,hasta),dist[hasta]
 
 def orden_topologico(grafo):
