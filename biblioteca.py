@@ -31,6 +31,7 @@ def camino_minimo(grafo, desde, hasta):
 				padre[w]=v
 				dist[w]=dist[v[1]]+grafo.peso_arista(v[1],w)
 				heapq.heappush(heap,(dist[w],w))
+	print(padre)
 
 	return reconstruir_camino(padre,hasta),dist[hasta]
 
@@ -93,7 +94,7 @@ def _viajante(grafo,origen,vertice,lista,heap,cant,visitados):
 		if w in visitados:
 			continue
 		nueva_cant=cant+grafo.peso_arista(vertice,w)	
-		if heap and nueva_cant>heap[0][0]:
+		if heap and nueva_cant>heap[0][0]:#primera condicion es por si tengo el heap vacio
 			continue
 		lista_aux=lista[:]
 		lista_aux.append(w)
