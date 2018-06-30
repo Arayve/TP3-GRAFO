@@ -164,7 +164,8 @@ def recorrer_grafo(grafo):#no se como llarmar a esta funcion
 		for w in grafo.adyacentes_vertice(v):
 			if (v,w) in visitados or (w,v) in visitados:
 				continue
-			lista.append([v,w])
+			cant=grafo.peso_arista(v,w)
+			lista.append([v,w,cant])
 			visitados.add((v,w))#creo que este esta demas
 			visitados.add((w,v))
 	return lista

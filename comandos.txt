@@ -4,3 +4,5 @@ ir San Petesburgo, Rostov del Don
 viaje optimo, Sochi
 viaje aproximado, Sochi
 viaje optimo, San Petesburgo
+itinerario recomendaciones.csv
+reducir_caminos destino.csv
