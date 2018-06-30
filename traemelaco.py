@@ -138,27 +138,6 @@ def cargar_set_datos(nombre_archivo_ciudades):
 				costo=int(lista_campos[2])
 				grafo.agregar_arista(lista_campos[0],lista_campos[1],costo)
 	return grafo,coordenadas
-"""
-	archivo_ciudades = open(nombre_archivo_ciudades, "r")
-
-	linea_actual = archivo_ciudades.read() #El archivo sedes.csv tiene un "11" al principio y un "55" en el medio
-#NO LEE CORRECTAMENTE, DEBERIA LEER LINEA POR LINEA
-	while linea_actual != "55":
-		linea_actual = archivo_ciudades.read()
-		linea_ciudad = linea_actual.split(",")
-		grafo.agregar_vertice(linea_ciudad[0])
-		coordenadas[linea_ciudad[0]] = linea_ciudad
-
-	while linea_actual != "":
-		linea_actual = archivo_ciudades.read()
-		linea_ciudad = linea_actual.split(",")
-		grafo.agregar_arista(linea_ciudad[0], linea_ciudad[1], linea_ciudad[2])
-
-	archivo_ciudades.close()
-
-	return grafo, coordenadas
-"""
-
 def caso_especial(linea_comando):
 	if linea_comando[1] == "San":
 		lista_aux = [linea_comando[1], linea_comando[2]]
@@ -169,6 +148,7 @@ def caso_especial(linea_comando):
 		lista_aux = [linea_comando[2], linea_comando[3]]
 		linea_comando[2] = ' '.join(lista_aux)
 		linea_comando.pop() #borrar el ultimo elemento
+	
 	return linea_comando
 
 def main():
