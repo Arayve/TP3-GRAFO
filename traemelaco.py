@@ -100,14 +100,16 @@ def comparar_comando(grafo, linea_comando,kml,coordenadas):
 		if linea_comando[0] == "ir":
 			procesar_ir(grafo, linea_comando[1], linea_comando[2],coordenadas,kml)
 			return True
-		if linea_comando[0] == "viaje":
-			if linea_comando[1] == "optimo,":
-				procesar_viaje_optimo(grafo, linea_comando[2],coordenadas,kml)
-				return True
-			if linea_comando[1] == "aproximado,":
-				procesar_viaje_aproximado(grafo, linea_comando[2],coordenadas,kml)
-				return True
 	if largo == 2:
+#		if linea_comando[0] == "viaje":
+#			if linea_comando[1] == "optimo,":
+		if linea_comando[0] == "viaje optimo":
+			procesar_viaje_optimo(grafo, linea_comando[1],coordenadas,kml)	#CAMBIADO 2 POR 1
+			return True
+#			if linea_comando[1] == "aproximado,":
+		if linea_comando[0] == "viaje aproximado":
+			procesar_viaje_aproximado(grafo, linea_comando[1],coordenadas,kml) #CAMBIADO 2 POR 1
+			return True
 		if linea_comando[0] == "itinerario":
 			procesar_itinerario(grafo, linea_comando[1],coordenadas,kml)
 			return True
@@ -139,15 +141,31 @@ def cargar_set_datos(nombre_archivo_ciudades):
 				grafo.agregar_arista(lista_campos[0],lista_campos[1],costo)
 	return grafo,coordenadas
 def caso_especial(linea_comando):
-	if linea_comando[1] == "San":
+	if linea_comando[1] == "San" or linea_comando[1] == "Nizhni":
 		lista_aux = [linea_comando[1], linea_comando[2]]
 		linea_comando[1] = ' '.join(lista_aux)
 		linea_comando[2] = linea_comando[3]
 		linea_comando.pop() #borrar el ultimo elemento
-	elif linea_comando[2] == "San":
+	elif linea_comando[2] == "San" or linea_comando[2] == "Nizhni":
 		lista_aux = [linea_comando[2], linea_comando[3]]
 		linea_comando[2] = ' '.join(lista_aux)
 		linea_comando.pop() #borrar el ultimo elemento
+	
+	return linea_comando
+
+def separar_comando(linea_actual):
+	
+	if linea_actual[:2] == "ir":
+		linea_actual[3] == ","
+		linea_comando = linea_actual.rstrip("\n").split(",")
+		del linea_comando[2][0] #BORRAR PRIMER ESPACIO DE LA SEGUNDA CIUDAD
+		return linea_comando
+	if linea_actual[:5] == "viaje":
+		linea_comando = linea_actual.rstrip("\n")split(",")
+		del linea_comando[1][0] #BORRAR PRIMER ESPACIO DE LA CIUDAD
+		return linea_comando
+	
+	linea_comando = linea_actual.rstrip("\n").split(" ")
 	
 	return linea_comando
 
@@ -157,12 +175,14 @@ def main():
 		print("Cantidad de parametros invalida")
 		return False
 
-	grafo , coordenadas = cargar_set_datos(sys.argv[1])
+	grafo, coordenadas = cargar_set_datos(sys.argv[1])
 	
 	for linea_actual in sys.stdin:
 		linea_comando = linea_actual.rstrip("\n").split(" ")
-		if len(linea_comando) == 4:
+		if len(linea_comando) >= 4:
 			linea_comando=caso_especial(linea_comando)
+		#IDEA APARTE
+		#linea_comando = separar_comando(linea_actual)
 		if not comparar_comando(grafo, linea_comando, sys.argv[2],coordenadas):
 			print("Parametro incorrecto")
 			return False
