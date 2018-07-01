@@ -87,11 +87,12 @@ def procesar_itinerario(grafo, recomendaciones,coordenadas,kml): #recomendacione
 def procesar_reducir_caminos(grafo, destino,coordenadas): #destino es el nombre de un archivo .csv
 	grafo_tendido,costo=biblioteca.arbol_tendido_minimo(grafo)
 	lista_recorrido=biblioteca.recorrer_grafo(grafo_tendido)
+	cant_arista=len(lista_recorrido)
 	with open(destino,"w") as archivo:
 		archivo.write("11\n")
 		for clave,valor in coordenadas.items():
 			archivo.write("{},{},{}\n".format(clave,valor[0],valor[1]))
-		archivo.write("55\n")
+		archivo.write("{}\n".format(cant_arista))
 		archivo_csv=csv.writer(archivo)
 		archivo_csv.writerows(lista_recorrido)
 	print("Peso total: {}".format(costo))
