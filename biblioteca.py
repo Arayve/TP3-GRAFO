@@ -92,14 +92,13 @@ def _viajante(grafo,origen,vertice,lista,heap,cant,visitados):
 		if w in visitados:
 			continue
 		nueva_cant=cant+grafo.peso_arista(vertice,w)	
-		if heap and nueva_cant>heap[0][0]:#primera condicion es por si tengo el heap vacio
+		if heap and nueva_cant >= heap[0][0]:#primera condicion es por si tengo el heap vacio
 			continue
 		lista_aux=lista[:]
 		lista_aux.append(w)
 		visitados_aux=set()
 		visitados_aux= visitados_aux | visitados
 		visitados_aux.add(w)
-		nueva_cant=cant+grafo.peso_arista(vertice,w)
 		_viajante(grafo,origen,w,lista_aux,heap,nueva_cant,visitados_aux)
 
 def viajante(grafo, origen):#fuerza bruta , grafo dirigido y pesado

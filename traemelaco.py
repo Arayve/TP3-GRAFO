@@ -84,10 +84,14 @@ def procesar_itinerario(grafo, recomendaciones,coordenadas,kml): #recomendacione
 			print(vertice, end = " -> ")
 	print(lista_orden_topologico[-1])
 	escrbir_kml(kml,"recomendaciones.csv","",coordenadas,"itinerario",lista_orden_topologico)
-def procesar_reducir_caminos(grafo, destino): #destino es el nombre de un archivo .csv
+def procesar_reducir_caminos(grafo, destino,coordenadas): #destino es el nombre de un archivo .csv
 	grafo_tendido,costo=biblioteca.arbol_tendido_minimo(grafo)
 	lista_recorrido=biblioteca.recorrer_grafo(grafo_tendido)
 	with open(destino,"w") as archivo:
+		archivo.write("11\n")
+		for clave,valor in coordenadas.items():
+			archivo.write("{},{},{}\n".format(clave,valor[0],valor[1]))
+		archivo.write("55\n")
 		archivo_csv=csv.writer(archivo)
 		archivo_csv.writerows(lista_recorrido)
 	print("Peso total: {}".format(costo))
@@ -113,7 +117,7 @@ def comparar_comando(grafo, linea_comando,kml,coordenadas):
 			procesar_itinerario(grafo, linea_comando[1],coordenadas,kml)
 			return True
 		if linea_comando[0] == "reducir_caminos":
-			procesar_reducir_caminos(grafo, linea_comando[1])
+			procesar_reducir_caminos(grafo, linea_comando[1],coordenadas)
 			return True
 
 	return False

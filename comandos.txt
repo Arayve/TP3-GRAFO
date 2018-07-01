@@ -1,8 +1,3 @@
-ir Ekaterinburgo, Moscu
-ir Ekaterinburgo, Rostov del Don
-ir San Petesburgo, Rostov del Don
+viaje optimo, Kaliningrado
 viaje optimo, Sochi
-viaje aproximado, Sochi
-viaje optimo, San Petesburgo
-itinerario recomendaciones.csv
 reducir_caminos destino.csv
