@@ -1,3 +1,12 @@
-viaje optimo, Kaliningrado
-viaje optimo, Sochi
+viaje aproximado, Sochi
+viaje aproximado, Volgogrado
+viaje aproximado, Moscu
+viaje aproximado, San Petesburgo
+viaje aproximado, Kaliningrado
+viaje aproximado, Kazan
+viaje aproximado, Nizhni Novgorod
+viaje aproximado, Samara
+viaje aproximado, Saransk
+viaje aproximado, Rostov del Don
+viaje aproximado, Ekaterinburgo
 reducir_caminos destino.csv
