@@ -89,7 +89,7 @@ def procesar_reducir_caminos(grafo, destino,coordenadas): #destino es el nombre 
 	lista_recorrido=biblioteca.recorrer_grafo(grafo_tendido)
 	cant_arista=len(lista_recorrido)
 	with open(destino,"w") as archivo:
-		archivo.write("11\n")
+		archivo.write("{}\n".format(grafo_tendido.cantidad_vertice()))
 		for clave,valor in coordenadas.items():
 			archivo.write("{},{},{}\n".format(clave,valor[0],valor[1]))
 		archivo.write("{}\n".format(cant_arista))
