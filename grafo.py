@@ -25,39 +25,37 @@ class Grafo:
 		for w in dic_arista.keys():
 			lista.append(w)
 		return lista
-	def agregar_arista(self,vertice_A,vertice_B,peso):
-		if not (vertice_A in self.dic_vertice and vertice_B in self.dic_vertice):
+	def agregar_arista(self,vertice_a,vertice_b,peso):
+		if not (vertice_a in self.dic_vertice and vertice_b in self.dic_vertice):
 			return False
-		dic_arista_A=self.dic_vertice[vertice_A]
-		if vertice_B in dic_arista_A:
+		dic_arista_a=self.dic_vertice[vertice_a]
+		if vertice_b in dic_arista_a:
 			return False
-		dic_arista_A[vertice_B]=peso
+		dic_arista_a[vertice_b]=peso
 		if not self.dirigido:
-			dic_arista_B=self.dic_vertice[vertice_B]
-			"""if vertice_A in dic_arista_B:#creo que esta demas 
-				return False"""
-			dic_arista_B[vertice_A]=peso
+			dic_arista_b=self.dic_vertice[vertice_b]
+			dic_arista_b[vertice_a]=peso
 		return True
-	def borrar_arista(self,vertice_A,vertice_B):
-		if not (vertice_A in self.dic_vertice and vertice_B in self.dic_vertice):
+	def borrar_arista(self,vertice_a,vertice_b):
+		if not (vertice_a in self.dic_vertice and vertice_b in self.dic_vertice):
 			return None
-		dic_arista_A = self.dic_vertice[vertice_A]
-		if not  vertice_B in dic_arista_A:
+		dic_arista_a = self.dic_vertice[vertice_a]
+		if not  vertice_b in dic_arista_a:
 			return None
-		peso = dic_arista_A.pop(vertice_B)
+		peso = dic_arista_a.pop(vertice_b)
 		if not self.dirigido:
-			dic_arista_B=self.dic_vertice[vertice_B]
-			dic_arista_B.pop(vertice_A)
+			dic_arista_b=self.dic_vertice[vertice_b]
+			dic_arista_b.pop(vertice_a)
 		return peso
 	def pertenece_vertice(self,vertice):
 		return vertice in self.dic_vertice
-	def peso_arista(self,vertice_A,vertice_B):
-		if not (vertice_A in self.dic_vertice and vertice_B in self.dic_vertice):
+	def peso_arista(self,vertice_a,vertice_b):
+		if not (vertice_a in self.dic_vertice and vertice_b in self.dic_vertice):
 			return None
-		dic_arista_A=self.dic_vertice[vertice_A]
-		if not  vertice_B in dic_arista_A:
+		dic_arista_a=self.dic_vertice[vertice_a]
+		if not  vertice_b in dic_arista_a:
 			return None
-		return dic_arista_A[vertice_B]
+		return dic_arista_a[vertice_b]
 	def obtener_vertice_aleatorio(self):
 		lista=[]
 		for vertice in self.dic_vertice.keys():
