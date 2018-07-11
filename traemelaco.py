@@ -3,8 +3,13 @@ import biblioteca
 import sys
 import csv
 
-CUIDAD="11"
-RUTA="55"
+CUIDAD = "cuidad"
+RUTA = "ruta"
+PRIMER_COMANDO = "ir"
+SEGUNDO_COMANDO = "viaje optimo"
+TERCER_COMANDO = "viaje aproximado"
+CUARTO_COMANDO = "itinerario"
+QUINTO_COMANDO = "reducir_caminos"
 def escribir_encabezado(nombre_funcion,desde,hasta,archivo):
 	archivo.write('<?xml version="1.0" encoding="UTF-8"?>\n')
 	archivo.write('kml xmlns="http://earth.google.com/kml/2.1">\n')
@@ -37,36 +42,28 @@ def escrbir_kml(kml,desde,hasta,coordenadas,nombre_funcion,lista_camino):
 			tupla_coorde2=coordenadas[lista_camino[i+1]]
 			escribir_artista(archivo,tupla_coorde1[0],tupla_coorde1[1],tupla_coorde2[0],tupla_coorde2[1])
 		escribir_final(archivo)
-
-def procesar_ir(grafo, desde, hasta,coordenadas,kml):
-	lista_camino,costo= biblioteca.camino_minimo(grafo, desde, hasta)
+def _imprimir_camino(lista_camino):
 	lista_aux=lista_camino[:-1]
 	if len(lista_camino)>1:
 		for vertice in lista_aux:
 			print(vertice, end = " -> ")
 	print(lista_camino[-1])
+def procesar_ir(grafo, desde, hasta,coordenadas,kml):
+	lista_camino,costo= biblioteca.camino_minimo(grafo, desde, hasta)
+	_imprimir_camino(lista_camino)
 	print("Costo total: {}".format(costo))
-	escrbir_kml(kml,desde,hasta,coordenadas,"ir",lista_camino)
+	escrbir_kml(kml,desde,hasta,coordenadas,PRIMER_COMANDO,lista_camino)
 def procesar_viaje_optimo(grafo,origen,coordenadas,kml):
-	lista_recorrido,costo= biblioteca.viajante(grafo, origen)
-	lista_aux=lista_recorrido[:-1]
-	if len(lista_recorrido)>1:
-		for vertice in lista_aux:
-			print(vertice, end = " -> ")
-	print(lista_recorrido[-1])
+	lista_camino,costo= biblioteca.viajante(grafo, origen)
+	_imprimir_camino(lista_camino)
 	print("Costo total: {}".format(costo))
-	escrbir_kml(kml,origen,"",coordenadas,"viaje optimo",lista_recorrido)
+	escrbir_kml(kml,origen,"",coordenadas,SEGUNDO_COMANDO,lista_camino)
 def procesar_viaje_aproximado(grafo, origen,coordenadas,kml):
-	lista_recorrido,costo = biblioteca.viajante_aproximado(grafo, origen)
-	lista_aux=lista_recorrido[:-1]
-	if len(lista_recorrido)>1:
-		for vertice in lista_aux:
-			print(vertice, end = " -> ")
-	print(lista_recorrido[-1])
+	lista_camino,costo = biblioteca.viajante_aproximado(grafo, origen)
+	_imprimir_camino(lista_camino)
 	print("Costo total: {}".format(costo))
-	escrbir_kml(kml,origen,"",coordenadas,"viaje aproximado",lista_recorrido)
-
-def procesar_itinerario(grafo, recomendaciones,coordenadas,kml): #recomendaciones es el nombre de un archivo .csv FIJATE QUE CREO QUE GRAfO NO HACE FALTA
+	escrbir_kml(kml,origen,"",coordenadas,TERCER_COMANDO,lista_camino)
+def procesar_itinerario(recomendaciones,coordenadas,kml): #recomendaciones es el nombre de un archivo .csv 
 	grafo_recomendaciones=Grafo(True)
 	with open(recomendaciones,"r") as archivo_csv:
 		for linea in archivo_csv:
@@ -78,18 +75,14 @@ def procesar_itinerario(grafo, recomendaciones,coordenadas,kml): #recomendacione
 			lista_campos=linea.rstrip("\n").split(",")
 			grafo_recomendaciones.agregar_arista(lista_campos[0],lista_campos[1],0)
 	lista_orden_topologico=biblioteca.orden_topologico(grafo_recomendaciones)
-	lista_aux=lista_orden_topologico[:-1]
-	if len(lista_orden_topologico)>1:
-		for vertice in lista_aux:
-			print(vertice, end = " -> ")
-	print(lista_orden_topologico[-1])
-	escrbir_kml(kml,"recomendaciones.csv","",coordenadas,"itinerario",lista_orden_topologico)
+	_imprimir_camino(lista_orden_topologico)
+	escrbir_kml(kml,"recomendaciones.csv","",coordenadas,CUARTO_COMANDO,lista_orden_topologico)
 def procesar_reducir_caminos(grafo, destino,coordenadas): #destino es el nombre de un archivo .csv
-	grafo_tendido,costo=biblioteca.arbol_tendido_minimo(grafo)
-	lista_recorrido=biblioteca.recorrer_grafo(grafo_tendido)
+	tendido_minimo,costo=biblioteca.arbol_tendido_minimo(grafo)
+	lista_recorrido=biblioteca.recorrer_grafo(tendido_minimo)
 	cant_arista=len(lista_recorrido)
 	with open(destino,"w") as archivo:
-		archivo.write("{}\n".format(grafo_tendido.cantidad_vertice()))
+		archivo.write("{}\n".format(tendido_minimo.cantidad_vertice()))
 		for clave,valor in coordenadas.items():
 			archivo.write("{},{},{}\n".format(clave,valor[0],valor[1]))
 		archivo.write("{}\n".format(cant_arista))
@@ -101,41 +94,37 @@ def comparar_comando(grafo, linea_comando,kml,coordenadas):
 	largo = len(linea_comando)
 
 	if largo == 3:
-		if linea_comando[0] == "ir":
+		if linea_comando[0] == PRIMER_COMANDO:
 			procesar_ir(grafo, linea_comando[1], linea_comando[2],coordenadas,kml)
 			return True
 	if largo == 2:
-#		if linea_comando[0] == "viaje":
-#			if linea_comando[1] == "optimo,":
-		if linea_comando[0] == "viaje optimo":
-			procesar_viaje_optimo(grafo, linea_comando[1],coordenadas,kml)	#CAMBIADO 2 POR 1
+		if linea_comando[0] == SEGUNDO_COMANDO:
+			procesar_viaje_optimo(grafo, linea_comando[1],coordenadas,kml)
 			return True
-#			if linea_comando[1] == "aproximado,":
-		if linea_comando[0] == "viaje aproximado":
-			procesar_viaje_aproximado(grafo, linea_comando[1],coordenadas,kml) #CAMBIADO 2 POR 1
+		if linea_comando[0] == TERCER_COMANDO:
+			procesar_viaje_aproximado(grafo, linea_comando[1],coordenadas,kml)
 			return True
-		if linea_comando[0] == "itinerario":
-			procesar_itinerario(grafo, linea_comando[1],coordenadas,kml)
+		if linea_comando[0] == CUARTO_COMANDO :
+			procesar_itinerario(linea_comando[1],coordenadas,kml)
 			return True
-		if linea_comando[0] == "reducir_caminos":
+		if linea_comando[0] == QUINTO_COMANDO:
 			procesar_reducir_caminos(grafo, linea_comando[1],coordenadas)
 			return True
-
 	return False
-
+def _invertir_centinela(estoy_en):
+	if estoy_en == "":
+		return CUIDAD
+	return RUTA
 def cargar_set_datos(nombre_archivo_ciudades):
-	"""El archivo debe contener sus encabezados correspondiente"""
+	"""El archivo debe contener sus encabezados correspondiente, los cuales son las cantidad de vertice y arista"""
 	grafo = Grafo(False)
 	coordenadas = {}
 	estoy_en = ""
 	with open(nombre_archivo_ciudades, "r") as archivo_csv:
 		for linea in archivo_csv:
 			lista_campos=linea.rstrip("\n").split(",")
-			if lista_campos[0] == CUIDAD:
-				estoy_en = CUIDAD
-				continue
-			if lista_campos[0] == RUTA:
-				estoy_en = RUTA
+			if len(lista_campos) == 1:
+				estoy_en =_invertir_centinela(estoy_en)
 				continue
 			if estoy_en == CUIDAD and len(lista_campos) == 3:
 				grafo.agregar_vertice(lista_campos[0])
@@ -160,7 +149,6 @@ def separar_comando(linea_actual):
 	return linea_comando
 
 def main():
-
 	if len(sys.argv) != 3:
 		print("Cantidad de parametros invalida")
 		return False

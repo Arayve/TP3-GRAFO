@@ -11,13 +11,13 @@ Saransk,54.183333,45.183333
 Rostov del Don,47.233333,39.716667
 Ekaterinburgo,56.833333,60.583333
 10
-Saransk,San Petesburgo,4
-San Petesburgo,Kaliningrado,4
-Kaliningrado,Moscu,3
 Moscu,Samara,2
+Moscu,Kaliningrado,3
 Moscu,Rostov del Don,3
+Kaliningrado,San Petesburgo,4
 Rostov del Don,Nizhni Novgorod,3
 Nizhni Novgorod,Kazan,1
 Nizhni Novgorod,Ekaterinburgo,5
 Kazan,Volgogrado,2
 Volgogrado,Sochi,3
+San Petesburgo,Saransk,4
